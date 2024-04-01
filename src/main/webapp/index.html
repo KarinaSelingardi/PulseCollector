@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Produto</title>
+</head>
+<body>
+<h1 class="product-meta__title heading h1">Inovador relógio Inteligente SENBONO <span><i class="fa fa-check-circle" aria-hidden="true" style="color: #005aff;font-size: 20px; position: relative; display: inline-block; top: -4px;"></i></span></h1>
+<button type="submit" class="product-form__add-button button button--primary btn-primary-buy" onclick="window.location.href='#anc_add'" data-action="add-to-cart">Comprar agora</button>
+<a href="https://contate.me/tekvo" class="btn-whatsapp-buy" target="_blank"><ion-icon name="logo-whatsapp" class="logo-whatsapp-ionic md hydrated" role="img" aria-label="logo whatsapp"></ion-icon>Comprar pelo WhatsApp</a>
+
+<script src="C:\Users\Usuario\IdeaProjects\PulseCollector\src\main\java\tekvo\controllers\models\TimeData.java"></script>
+
+<script>
+
+    var startTime = new Date().getTime();
+
+    window.addEventListener('unload', function() {
+        var endTime = new Date().getTime();
+        var elapsedTime = endTime - startTime;
+
+        var timeData = { timeSpent: elapsedTime };
+        fetch('/track-time', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(timeData)
+        });
+
+        // Exemplo de redirecionamento
+        // window.location.href = 'outra_pagina.html';
+    });
+</script>
+</body>
+</html>
