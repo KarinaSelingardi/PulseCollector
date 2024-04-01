@@ -6,7 +6,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import com.google.gson.Gson; // Importe a classe Gson
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import com.google.gson.Gson;
 
 @WebServlet("/track-time")
 public class TimeTrackerServlet extends HttpServlet {
@@ -23,10 +26,22 @@ public class TimeTrackerServlet extends HttpServlet {
         // Obtém o tempo gasto do objeto TimeData
         long timeSpent = timeData.getTimeSpent();
 
+        // Conecta ao banco de dados
+        try (Connection conexao = ConexãoBancoDeDados.obterConexao()) {
+            // Prepare a instrução SQL para insert o tempo na tabela
+            String sql = "INSERT INTO tempos (tempo_gasto) VALUES (?)";
+            try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+                // Substitui o parâmetro na instrução SQL pelo tempo gasto
+                stmt.setLong(1, timeSpent);
+                // Executa a instrução SQL
+                stmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            // Trata qualquer exceção que possa ocorrer ao interagir com o banco de dados
+            e.printStackTrace();
+        }
 
         System.out.println("Tempo de permanência na página: " + timeSpent + " milissegundos");
-        //armazenar o tempo em um banco de dados:
-         myRepository.saveTime(timeSpent);
 
         // Responde ao cliente
         response.setStatus(HttpServletResponse.SC_OK);
@@ -42,3 +57,4 @@ public class TimeTrackerServlet extends HttpServlet {
         return timeData;
     }
 }
+
