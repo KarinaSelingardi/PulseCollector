@@ -10,18 +10,18 @@
 <button type="submit" class="product-form__add-button button button--primary btn-primary-buy" onclick="window.location.href='#anc_add'" data-action="add-to-cart">Comprar agora</button>
 <a href="https://contate.me/tekvo" class="btn-whatsapp-buy" target="_blank"><ion-icon name="logo-whatsapp" class="logo-whatsapp-ionic md hydrated" role="img" aria-label="logo whatsapp"></ion-icon>Comprar pelo WhatsApp</a>
 
-<script src="C:\Users\Usuario\IdeaProjects\PulseCollector\src\main\java\tekvo\controllers\models\TimeData.java"></script>
+<!-- Importando o arquivo JavaScript -->
+<script src="Caminho/Para/Seu/Arquivo/TimeData.js"></script>
 
 <script>
+    var startTime = new Date().getTime(); // Captura o tempo inicial quando a página é carregada
 
-    var startTime = new Date().getTime();
+    window.addEventListener('unload', function() { // Evento disparado quando a página é fechada ou recarregada
+        var endTime = new Date().getTime(); // Captura o tempo quando a página é fechada ou recarregada
+        var elapsedTime = endTime - startTime; // Calcula o tempo decorrido
 
-    window.addEventListener('unload', function() {
-        var endTime = new Date().getTime();
-        var elapsedTime = endTime - startTime;
-
-        var timeData = { timeSpent: elapsedTime };
-        fetch('/track-time', {
+        var timeData = { timeSpent: elapsedTime }; // Cria um objeto contendo o tempo gasto
+        fetch('/track-time', { // Envia os dados para o servidor
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -29,9 +29,10 @@
             body: JSON.stringify(timeData)
         });
 
-        // Exemplo de redirecionamento
+        // redirecionamento
         // window.location.href = 'outra_pagina.html';
     });
 </script>
 </body>
 </html>
+
